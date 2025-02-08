@@ -24,6 +24,9 @@ jobs:
     - name: Copy HTML files to nginx folder
       run: sudo cp -r * /usr/share/nginx/html/
 
+    - name: List nginx HTML folder
+      run: ls -l /usr/share/nginx/html/
+
     - name: Test frontend deployment
       run: curl --silent --fail http://localhost | grep "Pays d'Europe" || echo "Frontend not deployed correctly"
   
