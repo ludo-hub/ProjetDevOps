@@ -48,7 +48,7 @@ app.post('/api/countries', (req, res) => {
             res.status(201).json({ message: 'Pays ajouté avec succès' });
         }
     });
-});
+}); 
 
 // Export pour les tests
 module.exports = app;
