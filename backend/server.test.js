@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../app'); 
+const app = require('./app'); 
 
 describe('API Endpoints', () => {
   test('GET /api/countries should return a list of countries', async () => {
