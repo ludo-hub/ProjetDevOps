@@ -22,7 +22,7 @@ jobs:
       run: sudo apt-get install -y nginx
 
     - name: Copy HTML files to nginx folder
-      run: sudo cp -r * /usr/share/nginx/html/
+      run: sudo cp -r frontend.html /usr/share/nginx/html/
 
     - name: List nginx HTML folder
       run: ls -l /usr/share/nginx/html/
