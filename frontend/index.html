@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pays d'Europe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pays d'Europe</h1>
+        
+        <table id="countriesTable">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Capitale</th>
+                    <th>Population</th>
+                    <th>Monnaie</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Contenu généré par JS -->
+            </tbody>
+        </table>
+
+        <h2>Ajouter un pays</h2>
+        <input type="text" id="name" placeholder="Nom du pays">
+        <input type="text" id="capital" placeholder="Capitale">
+        <input type="number" id="population" placeholder="Population">
+        <input type="text" id="currency" placeholder="Monnaie">
+        <button onclick="addCountry()">Ajouter</button>
+    </div>
+
+    <script>
+        async function loadCountries() {
+            try {
+                const response = await fetch('http://localhost:3000/api/countries');
+                const countries = await response.json();
+
+                const tableBody = document.querySelector('#countriesTable tbody');
+                tableBody.innerHTML = '';
+
+                countries.forEach(country => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${country.name}</td>
+                        <td>${country.capital}</td>
+                        <td>${country.population.toLocaleString()}</td>
+                        <td>${country.currency}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erreur chargement pays:', error);
+            }
+        }
+
+        async function addCountry() {
+            const name = document.getElementById('name').value;
+            const capital = document.getElementById('capital').value;
+            const population = document.getElementById('population').value;
+            const currency = document.getElementById('currency').value;
+
+            if (!name || !capital || !population || !currency) {
+                alert("Tous les champs sont requis !");
+                return;
+            }
+
+            try {
+                await fetch('http://localhost:3000/api/countries', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, capital, population, currency })
+                });
+
+                alert("Pays ajouté !");
+                loadCountries();
+            } catch (error) {
+                console.error('Erreur ajout pays:', error);
+            }
+        }
+
+        window.onload = loadCountries;
+    </script>
+</body>
+</html>
