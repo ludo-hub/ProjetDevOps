@@ -21,6 +21,12 @@ jobs:
     - name: Install nginx
       run: sudo apt-get install -y nginx
 
+    - name: Start nginx
+      run: sudo systemctl start nginx || sudo service nginx start
+
+    - name: Check if nginx is running
+      run: sudo systemctl is-active nginx || sudo service nginx status
+
     - name: Copy HTML files to nginx folder
       run: sudo cp -r index.html /usr/share/nginx/html/
 
