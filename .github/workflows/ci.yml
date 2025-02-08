@@ -72,17 +72,5 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Create database
-      run: |
-        mysql -u root -h 127.0.0.1 -p${{ secrets.MYSQL_ROOT_PASSWORD }} --default-character-set=utf8 < Country.sql
-      working-directory: MySQL
-
-    - name: Check database content
-      run: |
-        sudo apt-get install -y mysql-client
-        mysql -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "SHOW DATABASES;"
-        mysql -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "USE europe; SHOW TABLES;"
-        mysql -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "USE europe; SELECT * FROM countries;"
-
-    - name: Test
-      run: npm test || echo "No tests available for backend"
+    - name: run Test
+      run: npm test
