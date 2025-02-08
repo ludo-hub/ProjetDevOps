@@ -1,0 +1,1 @@
+mysql -u root -h 127.0.0.1 -p${{ secrets.MYSQL_ROOT_PASSWORD }} --default-character-set=utf8 < Country.sql
