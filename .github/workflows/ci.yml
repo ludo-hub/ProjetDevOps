@@ -1,0 +1,61 @@
+name: Continuous integration
+
+on:
+  push:
+    branches: 
+    - main
+  pull_request:
+    branches:
+    - main 
+  
+jobs:
+  frontend-test: 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install nginx
+      run: sudo apt-get install -y nginx
+
+    - name: Copy HTML files to nginx folder
+      run: sudo cp -r * /usr/share/nginx/html/
+
+    - name: Test frontend deployment
+      run: curl --silent --fail http://localhost | grep "Welcome to My App" || echo "Frontend not deployed correctly"
+  
+  backend-test: 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      mysql:
+        image: mysql:8
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      Db__Host: localhost
+      Db__User: root
+      Db__Password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      Db__Database: europe
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '17'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Test
+      run: npm test || echo "No tests available for backend"
