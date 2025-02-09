@@ -82,8 +82,7 @@ jobs:
         file: ./frontend/Dockerfile
         push: true
         tags: |
-          ludo973/projetdevops:${{ github.sha }}
-          ludo973/projetdevops:latest
+          ludo973/projetdevops:frontend
 
     - name: Build and push database Docker image
       uses: docker/build-push-action@v6.13.0
@@ -92,8 +91,7 @@ jobs:
         file: ./database/Dockerfile
         push: true
         tags: |
-          ludo973/projetdevops:${{ github.sha }}
-          ludo973/projetdevops:latest 
+          ludo973/projetdevops:database
     
     - name: Build and push backend Docker image
       uses: docker/build-push-action@v6.13.0
@@ -102,6 +100,5 @@ jobs:
         file: ./backend/Dockerfile
         push: true
         tags: |
-          ludo973/projetdevops:${{ github.sha }}
-          ludo973/projetdevops:latest
+          ludo973/projetdevops:backend
 
