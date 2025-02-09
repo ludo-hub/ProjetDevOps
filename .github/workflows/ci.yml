@@ -9,7 +9,59 @@ on:
     - main 
   
 jobs:
+  frontend-test: 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
 
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install nginx
+      run: sudo apt-get install -y nginx
+
+    - name: Start nginx
+      run: sudo systemctl start nginx || sudo service nginx start
+
+    - name: Copy HTML files to nginx folder
+      run: sudo cp -r frontend.html /usr/share/nginx/html/
+
+    - name: Configure nginx to use frontend.html
+      run: |
+        echo 'server {
+          listen 80;
+          server_name localhost;
+          root /usr/share/nginx/html;
+          index frontend.html;
+        }' | sudo tee /etc/nginx/sites-available/default
+    
+    - name: Restart nginx
+      run: sudo systemctl restart nginx || sudo service nginx restart
+
+    - name: Test frontend deployment
+      run: curl --silent --fail http://localhost | grep "Pays d'Europe" || echo "Frontend not deployed correctly"
+  
+  backend-test: 
+    runs-on: ubuntu-latest
+    defaults: 
+      run:
+        working-directory: backend
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '17'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: run Test
+      run: npm test
+  
   build-images:
     needs: [frontend-test, backend-test]
     runs-on: ubuntu-latest
