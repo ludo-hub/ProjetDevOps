@@ -66,8 +66,6 @@ jobs:
     needs: [frontend-test, backend-test]
     runs-on: ubuntu-latest
 
-
-
     steps:
 
     - name: Set up Docker Buildx
@@ -81,15 +79,15 @@ jobs:
 
     - name: Build and push frontend image
       run: |
-        docker build -t ludo973/projetdevops/frontend:${{ github.sha }} ./frontend
-        docker push ludo973/projetdevops/frontend:${{ github.sha }}
+        docker build -t ./frontend:${{ github.sha }}
+        docker push ludo973/projetdevops:${{ github.sha }}
 
     - name: Build and push backend image
       run: |
-        docker build -t ludo973/projetdevops/backend:${{ github.sha }} ./backend
-        docker push ludo973/projetdevops/backend:${{ github.sha }}
+        docker build -t /backend:${{ github.sha }}
+        docker push ludo973/projetdevops:${{ github.sha }}
 
     - name: Build and push database image
       run: |
-        docker build -t ludo973/projetdevops/database:${{ github.sha }} ./database
-        docker push ludo973/projetdevops/database:${{ github.sha }}
+        docker build -t /database:${{ github.sha }}
+        docker push ludo973/projetdevops:${{ github.sha }}
