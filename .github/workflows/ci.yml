@@ -79,15 +79,15 @@ jobs:
 
     - name: Build and push frontend image
       run: |
-        docker build -t frontend:${{ github.sha }} ./frontend
+        docker build -t frontend ./frontend
         docker push ludo973/projetdevops:${{ github.sha }}
 
     - name: Build and push backend image
       run: |
-        docker build -t backend:${{ github.sha }} ./backend
+        docker build -t backend ./backend
         docker push ludo973/projetdevops:${{ github.sha }}
 
     - name: Build and push database image
       run: |
-        docker build -t database:${{ github.sha }} ./database
+        docker build -t database ./database
         docker push ludo973/projetdevops:${{ github.sha }}
