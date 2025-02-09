@@ -1,6 +1,8 @@
 name: Continuous integration
 
 on:
+  pull:
+    - main
   pull_request:
     branches:
     - main 
