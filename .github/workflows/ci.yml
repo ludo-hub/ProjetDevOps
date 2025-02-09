@@ -82,4 +82,4 @@ jobs:
         push: true
         tags: |
           ludo973/projetdevops:${{ github.sha }}
-          ludo973/projetdevops:latest 
+          ludo973/projetdevops:latest
