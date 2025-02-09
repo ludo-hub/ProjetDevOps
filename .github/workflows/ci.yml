@@ -67,7 +67,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
+    - uses: actions/checkout@v3
+    
     - name: Set up DockerHub credentials
       uses: docker/login-action@v3.3.0
       with:
