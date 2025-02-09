@@ -81,5 +81,5 @@ jobs:
         file: ./backend/Dockerfile
         push: true
         tags: |
-          ludo973/projetdevops:${{ github.sha }} 
+          ludo973/projetdevops:${{ github.sha }}
           ludo973/projetdevops:latest 
