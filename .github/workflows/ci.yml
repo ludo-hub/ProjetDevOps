@@ -83,7 +83,7 @@ jobs:
     - name: Build the Docker image
       uses: docker/build-push-action@v2
       with: 
-        context: .
-        file: ./${{ matrix.component }}/Dockerfile
+        context: ${{ matrix.component }}
+        file: ${{ matrix.component }}/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/projetdevops:latest  
