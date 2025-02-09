@@ -61,3 +61,35 @@ jobs:
 
     - name: run Test
       run: npm test
+  
+  build-images:
+    needs: [frontend-test, backend-test]
+    runs-on: ubuntu-latest
+
+
+
+    steps:
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Set up DockerHub credentials
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push frontend image
+      run: |
+        docker build -t ludo973/projetdevops/frontend:${{ github.sha }} ./frontend
+        docker push ludo973/projetdevops/frontend:${{ github.sha }}
+
+    - name: Build and push backend image
+      run: |
+        docker build -t ludo973/projetdevops/backend:${{ github.sha }} ./backend
+        docker push ludo973/projetdevops/backend:${{ github.sha }}
+
+    - name: Build and push database image
+      run: |
+        docker build -t ludo973/projetdevops/database:${{ github.sha }} ./database
+        docker push ludo973/projetdevops/database:${{ github.sha }}
