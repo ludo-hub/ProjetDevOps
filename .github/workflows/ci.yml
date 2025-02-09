@@ -72,5 +72,27 @@ jobs:
     - name: Install dependencies
       run: npm install
   
-    - name: Test
-      run: npm test || echo "No tests available for backend"
+    - name: run Test
+      run: npm test
+  
+  build-images:
+    needs: [frontend-test, backend-test]
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Set up DockerHub credentials
+      uses: docker/login-action@v3.3.0
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v6.13.0
+      with:
+        context: .
+        file: ./backend/Dockerfile
+        push: true
+        tags: |
+          ludo973/projetdevops:${{ github.sha }}
+          ludo973/projetdevops:latest 
