@@ -63,27 +63,23 @@ jobs:
       run: npm test
   
   build-images:
-    strategy:
-      matrix:
-        component: ["frontend", "backend", "database"]
     needs: [frontend-test, backend-test]
     runs-on: ubuntu-latest
 
     steps:
 
     - name: Set up DockerHub credentials
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3.3.0
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Build the Docker image
-      uses: docker/build-push-action@v2
-      with: 
-        context: ${{ matrix.component }}
-        file: ${{ matrix.component }}/Dockerfile
+    - name: Build and push Docker image
+      uses: docker/setup-buildx-action@v6.13.0
+      with:
+        context: .
+        file: ./backend/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/projetdevops:latest  
+        tags: |
+          ludo973/projetdevops:${{ github.sha }} 
+          ludo973/projetdevops:latest 
