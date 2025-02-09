@@ -1,5 +1,4 @@
 {
-
   "scripts": {
     "test": "jest --verbose"
     },

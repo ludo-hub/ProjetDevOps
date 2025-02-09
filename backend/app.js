@@ -9,11 +9,11 @@ app.use(express.json());
 
 // Connexion MySQL
 const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'mludoV973%',
-    database: process.env.DB_NAME || 'europe'
-});
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
+}); 
 
 db.connect(err => {
     if (err) {
