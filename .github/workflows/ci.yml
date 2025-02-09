@@ -104,13 +104,4 @@ jobs:
         tags: |
           ludo973/projetdevops:${{ github.sha }}
           ludo973/projetdevops:latest
-          - name: Build and push Docker image
-          uses: docker/build-push-action@v6.13.0
-          with:
-            context: .
-            file: ./frontend/Dockerfile
-            push: true
-            tags: |
-              ludo973/projetdevops:${{ github.sha }}
-              ludo973/projetdevops:latest 
 
