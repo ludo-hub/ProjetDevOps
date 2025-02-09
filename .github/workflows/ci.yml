@@ -65,7 +65,7 @@ jobs:
   build-images:
     strategy:
       matrix:
-        component: ["frontend", "backend", "database"]
+        component: ["frontend", "backend"]
     needs: [frontend-test, backend-test]
     runs-on: ubuntu-latest
 
