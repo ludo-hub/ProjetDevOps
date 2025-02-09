@@ -65,6 +65,9 @@ jobs:
   build-images:
     needs: [frontend-test, backend-test]
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: ["frontend", "backend", "database"]
 
     steps:
     - uses: actions/checkout@v3
@@ -79,8 +82,7 @@ jobs:
       uses: docker/build-push-action@v6.13.0
       with:
         context: .
-        file: ./frontend/Dockerfile
+        file: ./${{ matrix.component }}/Dockerfile
         push: true
         tags: |
-          ludo973/projetdevops:${{ github.sha }}
-          ludo973/projetdevops:latest 
+          ludo973/projetdevops:${{ matrix.component }}
