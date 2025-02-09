@@ -2,11 +2,11 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package.json .  
-COPY package-lock.json . 
+COPY ./backend/package.json .  
+COPY ./backend/package-lock.json . 
 RUN npm install
 
-COPY *.js .
+COPY ./backend/*.js .
 
 RUN chown -R node:node /app  
 
