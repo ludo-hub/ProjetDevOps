@@ -65,6 +65,9 @@ jobs:
   build-images:
     needs: [frontend-test, backend-test]
     runs-on: ubuntu-latest
+    defaults: 
+      run:
+        working-directory: backend
 
     steps:
 
@@ -78,7 +81,7 @@ jobs:
       uses: docker/build-push-action@v6.13.0
       with:
         context: .
-        file: ./backend/Dockerfile
+        file: ./Dockerfile
         push: true
         tags: |
           ludo973/projetdevops:${{ github.sha }}
