@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../app'); // ton fichier app.js
+const app = require('./app'); // ton fichier app.js
 const mysql = require('mysql2');
 
 // Mock de la connexion MySQL
