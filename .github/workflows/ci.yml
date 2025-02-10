@@ -25,19 +25,19 @@ jobs:
       run: sudo systemctl start nginx || sudo service nginx start
 
     - name: Copy HTML files to nginx folder
-      run: sudo cp -r frontend.html /usr/share/nginx/html/
+      run: sudo cp -r index.html /usr/share/nginx/html/
 
-    - name: Configure nginx to use frontend.html
-      run: |
-        echo 'server {
-          listen 80;
-          server_name localhost;
-          root /usr/share/nginx/html;
-          index frontend.html;
-        }' | sudo tee /etc/nginx/sites-available/default
+    #- name: Configure nginx to use frontend.html
+    #  run: |
+    #    echo 'server {
+    #      listen 80;
+    #      server_name localhost;
+    #      root /usr/share/nginx/html;
+    #      index frontend.html;
+    #    }' | sudo tee /etc/nginx/sites-available/default
     
-    - name: Restart nginx
-      run: sudo systemctl restart nginx || sudo service nginx restart
+    #- name: Restart nginx
+    #  run: sudo systemctl restart nginx || sudo service nginx restart
 
     - name: Test frontend deployment
       run: curl --silent --fail http://localhost | grep "Pays d'Europe" || echo "Frontend not deployed correctly"
