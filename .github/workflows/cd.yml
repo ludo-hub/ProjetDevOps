@@ -14,10 +14,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Start Minikube
-        run: |
-          minikube start --driver=docker
-          kubectl config use-context minikube
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
@@ -31,3 +29,10 @@ jobs:
       - name: Apply Kubernetes Manifests
         run: |
           kubectl apply -f k8s/
+
+      - name: Test service URLs
+        run: |
+          minikube service list
+          minikube service backend --url
+          minikube service frontend --url
+          minikube service database --url
