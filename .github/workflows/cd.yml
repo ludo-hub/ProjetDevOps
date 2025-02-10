@@ -1,0 +1,38 @@
+name: Continuous Delivery
+
+on:
+  push:
+    branches:
+    - main
+    tags:
+      - '*'
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Minikube
+        uses: actions/setup-minikube@v1
+        with:
+          kubernetes-version: "v1.23.0"
+
+      - name: Start Minikube
+        run: |
+          minikube start --driver=docker
+          kubectl config use-context minikube
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Pull Docker images
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/projetdevops:frontend
+          docker pull ${{ secrets.DOCKER_USERNAME }}/projetdevops:backend
+          docker pull ${{ secrets.DOCKER_USERNAME }}/projetdevops:database
+
+      - name: Apply Kubernetes Manifests
+        run: |
+          kubectl apply -f k8s/
