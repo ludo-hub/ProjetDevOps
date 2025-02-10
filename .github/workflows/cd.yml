@@ -14,11 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Minikube
-        uses: actions/setup-minikube@v1
-        with:
-          kubernetes-version: "v1.23.0"
-
       - name: Start Minikube
         run: |
           minikube start --driver=docker
